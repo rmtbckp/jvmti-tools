@@ -34,7 +34,7 @@ in JDK 13, the given agent improves NPE messages for existing JDK 8-12.
 #### Compilation
 
     # Linux
-    g++ -O2 -fPIC -shared -I $JAVA_HOME/include -I $JAVA_HOME/include/linux -olibrichNPE.so richNPE.cpp
+    g++ -lstdc++ -O2 -fPIC -shared -I $JAVA_HOME/include -I $JAVA_HOME/include/linux -olibrichNPE.so richNPE.cpp
     
     # Windows
     cl /O2 /LD /I "%JAVA_HOME%/include" -I "%JAVA_HOME%/include/win32" richNPE.cpp
@@ -71,7 +71,7 @@ Traces basic JVM events like
 #### Compilation
 
     # Linux
-    g++ -O2 -fPIC -shared -I $JAVA_HOME/include -I $JAVA_HOME/include/linux -olibvmtrace.so vmtrace.cpp
+    g++ -lstdc++ -O2 -fPIC -shared -I $JAVA_HOME/include -I $JAVA_HOME/include/linux -olibvmtrace.so vmtrace.cpp
     
     # Windows
     cl /O2 /LD /I "%JAVA_HOME%/include" -I "%JAVA_HOME%/include/win32" vmtrace.cpp
@@ -100,7 +100,7 @@ when application uses private APIs.
 #### Compilation
 
     # Linux
-    g++ -O2 -fPIC -shared -I $JAVA_HOME/include -I $JAVA_HOME/include/linux -olibantimodule.so antimodule.cpp
+    g++ -lstdc++ -O2 -fPIC -shared -I $JAVA_HOME/include -I $JAVA_HOME/include/linux -olibantimodule.so antimodule.cpp
     
     # Windows
     cl /O2 /LD /I "%JAVA_HOME%/include" -I "%JAVA_HOME%/include/win32" antimodule.cpp
@@ -137,7 +137,7 @@ is capable of generating allocation profiles on JDK 7+.
 #### Compilation
 
     # Linux
-    g++ -O2 -fPIC -shared -I $JAVA_HOME/include -I $JAVA_HOME/include/linux -olibheapsampler.so heapsampler.cpp
+    g++ -lstdc++ -O2 -fPIC -shared -I $JAVA_HOME/include -I $JAVA_HOME/include/linux -olibheapsampler.so heapsampler.cpp
     
     # Windows
     cl /O2 /LD /I "%JAVA_HOME%/include" -I "%JAVA_HOME%/include/win32" heapsampler.cpp
@@ -165,7 +165,7 @@ and adds the specified offset to the times returned by these methods.
 #### Compilation
 
     # Linux
-    g++ -O2 -fPIC -shared -I $JAVA_HOME/include -I $JAVA_HOME/include/linux -olibfaketime.so faketime.cpp
+    g++ -lstdc++ -O2 -fPIC -shared -I $JAVA_HOME/include -I $JAVA_HOME/include/linux -olibfaketime.so faketime.cpp
     
     # Windows
     cl /O2 /LD /I "%JAVA_HOME%/include" -I "%JAVA_HOME%/include/win32" faketime.cpp
