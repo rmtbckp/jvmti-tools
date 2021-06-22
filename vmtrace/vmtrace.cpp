@@ -157,6 +157,15 @@ void JNICALL CompiledMethodLoad(jvmtiEnv* jvmti, jmethodID method,
     trace(jvmti, "Method compiled: %s.%s (%d bytes)", mn.holder(), mn.name(), code_size);
 }
 
+void JNICALL VMObjectAlloc(jvmtiEnv *jvmti,
+            JNIEnv* env,
+            jthread thread,
+            jobject object,
+            jclass jclass,
+            jlong size) {
+     trace(jvmti, "New object from: %s, %s (%d bytes)", thread, jclass, size);
+}
+
 void JNICALL CompiledMethodUnload(jvmtiEnv* jvmti, jmethodID method,
                                   const void* code_addr) {
     MethodName mn(jvmti, method);
@@ -201,6 +210,8 @@ JNIEXPORT jint JNICALL Agent_OnLoad(JavaVM* vm, char* options, void* reserved) {
     capabilities.can_generate_all_class_hook_events = 1;
     capabilities.can_generate_compiled_method_load_events = 1;
     capabilities.can_generate_garbage_collection_events = 1;
+    capabilities.can_generate_vm_object_alloc_events = 1;
+    
     jvmti->AddCapabilities(&capabilities);
 
     jvmtiEventCallbacks callbacks = {0};
@@ -216,6 +227,7 @@ JNIEXPORT jint JNICALL Agent_OnLoad(JavaVM* vm, char* options, void* reserved) {
     callbacks.ThreadEnd = ThreadEnd;
     callbacks.GarbageCollectionStart = GarbageCollectionStart;
     callbacks.GarbageCollectionFinish = GarbageCollectionFinish;
+    callbacks.VMObjectAlloc = VMObjectAlloc;
     jvmti->SetEventCallbacks(&callbacks, sizeof(callbacks));
 
     jvmti->SetEventNotificationMode(JVMTI_ENABLE, JVMTI_EVENT_VM_START, NULL);
@@ -230,6 +242,7 @@ JNIEXPORT jint JNICALL Agent_OnLoad(JavaVM* vm, char* options, void* reserved) {
     jvmti->SetEventNotificationMode(JVMTI_ENABLE, JVMTI_EVENT_THREAD_END, NULL);
     jvmti->SetEventNotificationMode(JVMTI_ENABLE, JVMTI_EVENT_GARBAGE_COLLECTION_START, NULL);
     jvmti->SetEventNotificationMode(JVMTI_ENABLE, JVMTI_EVENT_GARBAGE_COLLECTION_FINISH, NULL);
+    jvmti->SetEventNotificationMode(JVMTI_ENABLE, JVMTI_EVENT_VM_OBJECT_ALLOC, NULL);
 
     return 0;
 }
